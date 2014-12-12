@@ -30,7 +30,8 @@ function cmd_exec($cmd, &$stdout, &$stderr, $stdin)
     unlink($errfile);
     return $exit;
 }
-cmd_exec('arm-elf-gcc -Wall -o compiled_'.$sid.' compile_'.$sid.'.s',$outputC,$outputE,'');
+//cmd_exec('arm-elf-gcc -Wall -o compiled_'.$sid.' compile_'.$sid.'.s',$outputC,$outputE,'');
+cmd_exec('arm-linux-gnueabi-gcc -Wall -o  compiled_'.$sid.' compile_'.$sid.'.s',$outputC,$outputE,'');
 //$outputC = shell_exec('arm-elf-gcc -Wall -o compiled compile.s');
 if(count($outputC)>0){
 echo "Compiler Messages:\n";
@@ -50,7 +51,8 @@ echo "\n\n";
 }else{
 	echo "No Compiler Error Messages\n";
 	}
-cmd_exec('arm-elf-run compiled_'.$sid,$outputC,$outputE,$_POST['toStdin']);
+//cmd_exec('arm-elf-run compiled_'.$sid,$outputC,$outputE,$_POST['toStdin']);
+    cmd_exec('qemu-arm -L /usr/arm-linux-gnueabi  compiled_'.$sid,$outputC,$outputE,$_POST['toStdin']);
 //$outputC = shell_exec('arm-elf-gcc -Wall -o compiled compile.s');
 if(count($outputC)>0){
 echo "\nRuntime Output:\n";
