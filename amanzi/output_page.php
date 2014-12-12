@@ -3,7 +3,7 @@
 <?php
 	session_start();
 
-	$sid = session_id();
+	$sid = session_id(); //adding a sessiion id for multiple access at the same time
 file_put_contents('compile_'.$sid.'.s',$_POST["toCompiler"]);
 function cmd_exec($cmd, &$stdout, &$stderr, $stdin)
 {
@@ -30,8 +30,8 @@ function cmd_exec($cmd, &$stdout, &$stderr, $stdin)
     unlink($errfile);
     return $exit;
 }
-//cmd_exec('arm-elf-gcc -Wall -o compiled_'.$sid.' compile_'.$sid.'.s',$outputC,$outputE,'');
-cmd_exec('arm-linux-gnueabi-gcc -Wall -o  compiled_'.$sid.' compile_'.$sid.'.s',$outputC,$outputE,'');
+//cmd_exec('arm-elf-gcc -Wall -o compiled_'.$sid.' compile_'.$sid.'.s',$outputC,$outputE,'');// this is for windows compilation
+cmd_exec('arm-linux-gnueabi-gcc -Wall -o  compiled_'.$sid.' compile_'.$sid.'.s',$outputC,$outputE,''); //this is for linux compilation
 //$outputC = shell_exec('arm-elf-gcc -Wall -o compiled compile.s');
 if(count($outputC)>0){
 echo "Compiler Messages:\n";
