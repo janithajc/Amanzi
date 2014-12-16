@@ -4,8 +4,9 @@ var mainFound = false;
 var mainLine = 0;
 var	dataStart = 0;
 var condFlag = 14;
-var hex = true;
-var bin =  false;
+var hex = false;
+var bin = false;
+var dec = true;
 
 //This is the function that is called everytime the user presses the "Step" button
 function step(){
@@ -77,6 +78,8 @@ function step(){
 			hexaIt();
 		}else if(bin){
 			binaIt();
+		}else if(dec){
+			decaIt();
 		}else{
 			alert("Select either binary or hexadecimal");
 		}
@@ -366,6 +369,15 @@ function hexaIt(){
 	document.getElementById("pc").innerHTML = d2h(registers["pc"]);
 }
 
+function decaIt(){
+	for(var i=0; i<13; i++){
+		document.getElementById("r"+i).innerHTML = registers["r"+i];
+	}
+	document.getElementById("sp").innerHTML = registers["sp"];
+	document.getElementById("lr").innerHTML = registers["lr"];
+	document.getElementById("pc").innerHTML = registers["pc"];
+}
+
 function binaIt(){
 	for(var i=0; i<13; i++){
 		document.getElementById("r"+i).innerHTML = d2b(registers["r"+i]);
@@ -378,11 +390,20 @@ function binaIt(){
 function setHex(){
 	hex = true;
 	bin = false;
+	dec = false;
 	hexaIt();
 }
 
 function setBin(){
 	hex = false;
 	bin = true;
+	dec = false;
 	binaIt();
+}
+
+function setDec(){
+	hex = false;
+	bin = false;
+	dec = true;
+	decaIt();
 }
