@@ -6,7 +6,7 @@
 		<button onclick="loadFileAsText()" class="myButton">Load Selected File</button>
         </form>
 <br>
-<a href="debug_page.php"><button class="myButton">Debug</button></a>
+<a href="debug_page.html"><button class="myButton">Debug</button></a>
         </div>
 </div>
 <script type='text/javascript'>

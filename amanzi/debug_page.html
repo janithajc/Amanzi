@@ -7,8 +7,20 @@
 </head>
 <body style="background:url(images/water-background.jpg);background-size:cover;min-height:300px;min-width:500px;">
 <div id="header">
+<table style="top:2px; left:120px; position:absolute">
+<tr><td><h3>Line Number:</h3></td><td><h3 id="lineNum"></h3></td></tr>
+</table>
+<table style="bottom:2px; left:120px; position:absolute">
+<tr><td><h3>Last Line:</h3></td><td><h3 id="lastLine"></h3></td></tr>
+</table>
 <h3 style="top:5px; left:40%; position:absolute">Debug Controls</h3>
-<button onClick="step()" class="myButton" style="left:10px; bottom:10px; position:absolute">Step</button>
+<table style="left:10px; bottom:10px; position:absolute">
+<tr><td>
+<button onClick="step()" class="myButton">Step</button>
+</td></tr>
+<tr><td>
+<button onClick="instDump()" class="myButton">Dump</button>
+</tr></td>
 <button onClick="resetRegs()" class="myButton" style="right:10px; bottom:10px; position:absolute">Reset</button>
 <table style="left:35%; bottom:10px; position:absolute"><tr><td><button onClick="setHex()" class="myButton">Hexadecimal</button></td><td><button onClick="setBin()" class="myButton">Binary</button></td></tr></table>
 </div>
@@ -23,10 +35,13 @@ main:
 </div>
 <div id="input" style="width:10;height:10;overflow:scroll">
 <table>
-<tr><td><h3>Standard output: </h3></td><td><textarea id="stdOut"></textarea></td></tr>
-<tr><td><h3>Line Number:</h3></td><td><h3 id="lineNum"></h3></td></tr>
-<tr><td><h3>Last Line:</h3></td><td><h3 id="lastLine"></h3></td></tr>
+<tr>
+<td><h3>Standard output: </h3></td><td><textarea id="stdOut"></textarea></td>
+</tr>
 </table>
+<div id="dump" style="min-width:300px;height:200px;">
+Instruction memory comes here;
+</div>
 </div>
 <div id="output" style="width:10;height:10;overflow:scroll">
 <div class="CSSTableGenerator">
@@ -40,8 +55,6 @@ main:
 	<td>r5</td>
 	<td>r6</td>
 	<td>r7</td>
-	<td>r8</td>
-	<td>r9</td>
 </tr>
 <tr>
 	<td id="r0">00</td>
@@ -52,29 +65,25 @@ main:
 	<td id="r5">00</td>
 	<td id="r6">00</td>
 	<td id="r7">00</td>
-	<td id="r8">00</td>
-	<td id="r9">00</td>
 </tr>
 </table>
 <br>
 <table>
 <tr>
+	<td>r8</td>
+	<td>r9</td>
 	<td>r10</td>
 	<td>r11</td>
 	<td>r12</td>
-	<td>r13</td>
-	<td>r14</td>
-	<td>r15</td>
 	<td>sp</td>
 	<td>lr</td>
     <td>pc</td>
 </tr>
+	<td id="r8">00</td>
+	<td id="r9">00</td>
 	<td id="r10">00</td>
 	<td id="r11">00</td>
 	<td id="r12">00</td>
-	<td id="r13">00</td>
-	<td id="r14">00</td>
-	<td id="r15">00</td>
 	<td id="sp">00</td>
 	<td id="lr">00</td>
     <td id="pc">00</td>
@@ -101,7 +110,9 @@ main:
 </table>
 </div>
 </div>
-<div id="footer"><form method="post" action="sent.php"><textarea id="theOut" name="toCompiler" style="display:none"></textarea>
+<div id="footer">
+<div style="left:200px;position:absolute"><h3>Standard input: </h3><textarea id="stdIn"></textarea></div>
+<form method="post" action="sent.php"><textarea id="theOut" name="toCompiler" style="display:none"></textarea>
 <textarea id="theStdin" name="toStdin" style="display:none"></textarea>
 	  <input type="submit" name="submit" id="submit" value="Compile and Run" onClick="gettext()" class="myButton">
 </form><div style="position:absolute;float:right;top:10px;bottom:10px;right:10px;">
@@ -113,7 +124,7 @@ main:
 </div>
     <script type="text/javascript">function gettext(){
 		document.getElementById("theOut").innerHTML =  editor.getValue();
-		document.getElementById("theStdin").innerHTML =  document.getElementById("stdInput").value;
+		document.getElementById("theStdin").innerHTML =  document.getElementById("stdIn").value;
 	}</script>
 <script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="javascript/process.js" type="text/javascript" charset="utf-8"></script>
@@ -121,6 +132,10 @@ main:
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/arm");
+	
+	var dump = ace.edit("dump");
+    dump.setTheme("ace/theme/monokai");
+    dump.getSession().setMode("ace/mode/plain_text");
 </script>
 <script type='text/javascript'>
 editor.getSession().selection.on('changeSelection', function(e) {
@@ -147,5 +162,6 @@ function loadFileAsText()
 }
 
 </script>
+<script src="javascript/inst_mem.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>

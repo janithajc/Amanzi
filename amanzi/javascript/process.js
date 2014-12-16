@@ -3,7 +3,7 @@ var registers = {r0:0,r1:0,r2:0,r3:0,r4:0,r5:0,r6:0,r7:0,r8:0,r9:0,r10:0,r11:0,r
 var mainFound = false;
 var mainLine = 0;
 var	dataStart = 0;
-var condFlag;
+var condFlag = 14;
 var hex = true;
 var bin =  false;
 
@@ -23,6 +23,7 @@ function step(){
 	}
 	//Now the current line is broken into instruction(inst[0]) and its arguments(inst[1]), inst[1] is then broken into the array regs to be used as necessary:
 	document.getElementById("lastLine").innerHTML = editor.selection.getCursor().row + 1;
+	registers["pc"] = editor.selection.getCursor().row + 2;
 	editor.selection.selectLine();
 	var line = editor.session.getTextRange(editor.getSelectionRange());
 	line = line.trim();
@@ -42,7 +43,7 @@ function step(){
 			add(regs);
 		}else if((/sub$/i).test(inst[0])){
 			subs(regs);
-		}else if((/(#.*)/).test(inst[0])){
+		}else if((/(@.*$|#.*$)/).test(inst[0])){
 			alert("Comment");
 		}else if((/bl$/i).test(inst[0])){
 			bl(regs[0]+':');
@@ -181,6 +182,7 @@ function bl(label){
 			}
 		}
 	}
+	registers["lr"] = registers["pc"] - 1;
 }
 	
 function mov(regs){
@@ -319,7 +321,7 @@ function thePrintf(label){
 function resetRegs(){
 		mainFound = false;
 		var reg = 'r';
-		for(var i=0; i < 16; i++){
+		for(var i=0; i < 13; i++){
 			reg = 'r'+i;
 			registers[reg] = 0;
 			document.getElementById(reg).innerHTML = '00';
@@ -356,7 +358,7 @@ function d2b(d){
 }
 
 function hexaIt(){
-	for(var i=0; i<16; i++){
+	for(var i=0; i<13; i++){
 		document.getElementById("r"+i).innerHTML = d2h(registers["r"+i]);
 	}
 	document.getElementById("sp").innerHTML = d2h(registers["sp"]);
@@ -365,7 +367,7 @@ function hexaIt(){
 }
 
 function binaIt(){
-	for(var i=0; i<16; i++){
+	for(var i=0; i<13; i++){
 		document.getElementById("r"+i).innerHTML = d2b(registers["r"+i]);
 	}
 	document.getElementById("sp").innerHTML = d2b(registers["sp"]);
