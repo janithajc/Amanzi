@@ -391,6 +391,9 @@ function setHex(){
 	hex = true;
 	bin = false;
 	dec = false;
+	document.getElementById("hex_button").style.color="#cc0000";
+	document.getElementById("dec_button").style.color="#ffffff";
+	document.getElementById("bin_button").style.color="#ffffff";
 	hexaIt();
 }
 
@@ -398,6 +401,9 @@ function setBin(){
 	hex = false;
 	bin = true;
 	dec = false;
+	document.getElementById("bin_button").style.color="#cc0000";
+	document.getElementById("hex_button").style.color="#ffffff";
+	document.getElementById("dec_button").style.color="#ffffff";
 	binaIt();
 }
 
@@ -405,5 +411,8 @@ function setDec(){
 	hex = false;
 	bin = false;
 	dec = true;
+	document.getElementById("dec_button").style.color="#cc0000";
+	document.getElementById("hex_button").style.color="#ffffff";
+	document.getElementById("bin_button").style.color="#ffffff";
 	decaIt();
 }
